@@ -29,13 +29,15 @@ board = []
 for i in range(BOARD_ROWS):
 	board.append([None] * BOARD_COLS)
 
+# Load assets for X and O
 font = pygame.font.Font(None, 40)
 x_img = pygame.image.load('x.png')
 y_img = pygame.image.load('o.png')
 x_img = pygame.transform.scale(x_img, (150, 150))
 y_img = pygame.transform.scale(y_img, (150, 150))
 
-# Draw grid lines
+# draw_lines() - Draws the grid lines for the tic-tac-toe board.
+# Returns: None
 def draw_lines():
 	# Horizontal lines
 	pygame.draw.line(screen, LINE_COLOR, (0, 200), (600, 200), LINE_WIDTH)
@@ -44,6 +46,8 @@ def draw_lines():
 	pygame.draw.line(screen, LINE_COLOR, (200, 0), (200, 600), LINE_WIDTH)
 	pygame.draw.line(screen, LINE_COLOR, (400, 0), (400, 600), LINE_WIDTH)
 
+# draw_figures() - Renders X and O symbols.
+# Returns: None
 def draw_figures():
 	for row in range(BOARD_ROWS):
 		for col in range(BOARD_COLS):
@@ -52,6 +56,8 @@ def draw_figures():
 			elif board[row][col] == 'X':
 				screen.blit(x_img, (col * 200 + 25, row * 200 + 25))
 
+# check_winner() - Draws the winning line if a winner exists.
+# Returns: 'X' or 'O' if there's a winner, None otherwise.
 def check_winner():
 	# Check rows and columns
 	for i in range(BOARD_ROWS):
@@ -72,6 +78,8 @@ def check_winner():
 
 	return None
 
+# draw_status() - Displays the current game status (whose turn or the winner).
+# Returns: None
 def draw_status():
 	status = "Player X's Turn" if player == 'X' else "Player O's Turn"
 	if game_over:
@@ -80,24 +88,34 @@ def draw_status():
 	screen.fill(BG_COLOR, (0, HEIGHT, WIDTH, 100))
 	screen.blit(text, (20, HEIGHT + 20))
 
+# draw_vertical_winning_line() - Draws a vertical line for the winner.
+# Returns: None
 def draw_vertical_winning_line(col, player):
 	posX = col * 200 + 100
 	color = CIRCLE_COLOR if player == 'O' else CROSS_COLOR
 	pygame.draw.line(screen, color, (posX, 15), (posX, HEIGHT - 15), 15)
 
+# draw_horizontal_winning_line() - Draws a horizontal line for the winner.
+# Returns: None
 def draw_horizontal_winning_line(row, player):
 	posY = row * 200 + 100
 	color = CIRCLE_COLOR if player == 'O' else CROSS_COLOR
 	pygame.draw.line(screen, color, (15, posY), (WIDTH - 15, posY), 15)
 
+# draw_asc_diagonal() - Draws a diagonal line from bottom-left to top-right for the winner.
+# Returns: None
 def draw_asc_diagonal(player):
 	color = CIRCLE_COLOR if player == 'O' else CROSS_COLOR
 	pygame.draw.line(screen, color, (15, HEIGHT - 15), (WIDTH - 15, 15), 15)
 
+# draw_desc_diagonal() - Draws a diagonal line from top-left to bottom-right for the winner.
+# Returns: None
 def draw_desc_diagonal(player):
 	color = CIRCLE_COLOR if player == 'O' else CROSS_COLOR
 	pygame.draw.line(screen, color, (15, 15), (WIDTH - 15, HEIGHT - 15), 15)
 
+# user_click() - Handles mouse clicks and updates the game state.
+# Returns: None
 def user_click():
 	mouseX, mouseY = pygame.mouse.get_pos()
 	if mouseY < HEIGHT:
@@ -113,6 +131,8 @@ def user_click():
 			player = 'O' if player == 'X' else 'X'
 			draw_status()
 
+# restart() - Resets the game state to start a new match.
+# Returns: None
 def restart():
 	screen.fill(BG_COLOR)
 	draw_lines()
@@ -120,6 +140,7 @@ def restart():
 		for col in range(BOARD_COLS):
 			board[row][col] = None
 
+# Main loop variables
 player = 'X'
 game_over = False
 
