@@ -153,12 +153,11 @@ while True:
 		if event.type == pygame.MOUSEBUTTONDOWN and not game_over:
 			user_click()
 
-		if event.type == pygame.KEYDOWN:
-			if event.key == pygame.K_r:
-				restart()
-				game_over = False
-				player = 'X'
-				draw_status()
+		if event.type == pygame.KEYDOWN and event.key == pygame.K_r:
+			restart()
+			game_over = False
+			player = 'X'
+			draw_status()
 
 	draw_figures()
 	pygame.display.update()
