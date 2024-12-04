@@ -29,10 +29,8 @@ board = [[None] * BOARD_COLS for i in range(BOARD_ROWS)]
 
 # Load assets for X and O
 font = pygame.font.Font(None, 40)
-x_img = pygame.image.load('x.png')
-y_img = pygame.image.load('o.png')
-x_img = pygame.transform.scale(x_img, (150, 150))
-y_img = pygame.transform.scale(y_img, (150, 150))
+x_img = pygame.transform.scale(pygame.image.load('x.png'), (150, 150))
+y_img = pygame.transform.scale(pygame.image.load('o.png'), (150, 150))
 
 # draw_lines() - Draws the grid lines for the tic-tac-toe board.
 # Returns: None
