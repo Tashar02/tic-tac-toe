@@ -54,20 +54,20 @@ def draw_figures():
 # check_winner() - Draws the winning line if a winner exists.
 # Returns: 'X' or 'O' if there's a winner, None otherwise.
 def check_winner():
-	# Check rows and columns
+	# Check for a winner in rows and columns
 	for i in range(BOARD_ROWS):
-		if board[i][0] == board[i][1] == board[i][2] and board[i][0] is not None:
+		if board[i][0] == board[i][1] == board[i][2] and board[i][0]:
 			draw_horizontal_winning_line(i, board[i][0])
 			return board[i][0]
-		if board[0][i] == board[1][i] == board[2][i] and board[0][i] is not None:
+		if board[0][i] == board[1][i] == board[2][i] and board[0][i]:
 			draw_vertical_winning_line(i, board[0][i])
 			return board[0][i]
 
-	# Check diagonals
-	if board[0][0] == board[1][1] == board[2][2] and board[0][0] is not None:
+	# Check for a winner in diagonals
+	if board[0][0] == board[1][1] == board[2][2] and board[0][0]:
 		draw_desc_diagonal(board[0][0])
 		return board[0][0]
-	if board[0][2] == board[1][1] == board[2][0] and board[0][2] is not None:
+	if board[0][2] == board[1][1] == board[2][0] and board[0][2]:
 		draw_asc_diagonal(board[0][2])
 		return board[0][2]
 
