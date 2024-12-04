@@ -73,12 +73,25 @@ def check_winner():
 
 	return None
 
+# check_draw() - Checks if the game is a draw (board is full but no winner).
+# Returns: True if draw, False otherwise.
+def check_draw():
+	for row in range(BOARD_ROWS):
+		for col in range(BOARD_COLS):
+			if board[row][col] is None:
+				return False
+	return True
+
 # draw_status() - Displays the current game status (whose turn or the winner).
 # Returns: None
 def draw_status():
 	status = "Player X's Turn" if player == 'X' else "Player O's Turn"
 	if game_over:
-		status = f"Player {check_winner()} Wins! Press R to Restart"
+		winner = check_winner()
+		if winner:
+			status = f"Player {winner} Wins! Press R to Restart"
+		elif check_draw():
+			status = "It's a Draw! Press R to Restart"
 	text = font.render(status, True, TEXT_COLOR, BG_COLOR)
 	screen.fill(BG_COLOR, (0, HEIGHT, WIDTH, 100))
 	screen.blit(text, (20, HEIGHT + 20))
@@ -120,7 +133,7 @@ def user_click():
 		if not board[clicked_row][clicked_col]:
 			global player
 			board[clicked_row][clicked_col] = player
-			if check_winner():
+			if check_winner() or check_draw():
 				global game_over
 				game_over = True
 			player = 'O' if player == 'X' else 'X'
