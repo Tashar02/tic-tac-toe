@@ -25,9 +25,7 @@ pygame.display.set_caption("Tic Tac Toe")
 screen.fill(BG_COLOR)
 
 # Board state
-board = []
-for i in range(BOARD_ROWS):
-	board.append([None] * BOARD_COLS)
+board = [[None] * BOARD_COLS for i in range(BOARD_ROWS)]
 
 # Load assets for X and O
 font = pygame.font.Font(None, 40)
