@@ -1,7 +1,7 @@
-import pygame, sys, time
+import pygame as pg, sys, time
 
 # Initialize pygame
-pygame.init()
+pg.init()
 
 # Screen dimensions
 WIDTH, HEIGHT = 600, 600
@@ -20,36 +20,36 @@ CROSS_COLOR = (66, 66, 66)
 TEXT_COLOR = (255, 255, 255)
 
 # Initialize screen
-screen = pygame.display.set_mode((WIDTH, HEIGHT + 100))
-pygame.display.set_caption("Tic Tac Toe")
+screen = pg.display.set_mode((WIDTH, HEIGHT + 100))
+pg.display.set_caption("Tic Tac Toe")
 screen.fill(BG_COLOR)
 
 # Board state
 board = [[None] * BOARD_COLS for i in range(BOARD_ROWS)]
 
 # Load assets for X and O
-font = pygame.font.Font(None, 40)
-x_img = pygame.transform.scale(pygame.image.load('x.png'), (150, 150))
-y_img = pygame.transform.scale(pygame.image.load('o.png'), (150, 150))
+x_img = pg.transform.scale(pg.image.load('x.png'), (150, 150))
+y_img = pg.transform.scale(pg.image.load('o.png'), (150, 150))
+
+# Load font for displaying text
+font = pg.font.Font(None, 40)
 
 # draw_lines() - Draws the grid lines for the tic-tac-toe board.
 # Returns: None
 def draw_lines():
 	for row_num in range(1, BOARD_ROWS):
 		# Horizontal lines
-		pygame.draw.line(screen, LINE_COLOR, (0, row_num * 200), (WIDTH, row_num * 200), LINE_WIDTH)
+		pg.draw.line(screen, LINE_COLOR, (0, row_num * 200), (WIDTH, row_num * 200), LINE_WIDTH)
 		# Vertical lines
-		pygame.draw.line(screen, LINE_COLOR, (row_num * 200, 0), (row_num * 200, HEIGHT), LINE_WIDTH)
+		pg.draw.line(screen, LINE_COLOR, (row_num * 200, 0), (row_num * 200, HEIGHT), LINE_WIDTH)
 
-# draw_figures() - Renders X and O symbols.
+# drawXO() - Renders X and O symbols.
 # Returns: None
-def draw_figures():
-	for row in range(BOARD_ROWS):
-		for col in range(BOARD_COLS):
-			if board[row][col] == 'O':
-				screen.blit(y_img, (col * 200 + 25, row * 200 + 25))
-			elif board[row][col] == 'X':
-				screen.blit(x_img, (col * 200 + 25, row * 200 + 25))
+def drawXO(row, col):
+	if board[row][col] == 'O':
+		screen.blit(y_img, (col * 200 + 25, row * 200 + 25))
+	elif board[row][col] == 'X':
+		screen.blit(x_img, (col * 200 + 25, row * 200 + 25))
 
 # check_winner() - Draws the winning line if a winner exists.
 # Returns: 'X' or 'O' if there's a winner, None otherwise.
@@ -101,31 +101,31 @@ def draw_status():
 def draw_vertical_winning_line(col, player):
 	posX = col * 200 + 100
 	color = CIRCLE_COLOR if player == 'O' else CROSS_COLOR
-	pygame.draw.line(screen, color, (posX, 15), (posX, HEIGHT - 15), 15)
+	pg.draw.line(screen, color, (posX, 15), (posX, HEIGHT - 15), 15)
 
 # draw_horizontal_winning_line() - Draws a horizontal line for the winner.
 # Returns: None
 def draw_horizontal_winning_line(row, player):
 	posY = row * 200 + 100
 	color = CIRCLE_COLOR if player == 'O' else CROSS_COLOR
-	pygame.draw.line(screen, color, (15, posY), (WIDTH - 15, posY), 15)
+	pg.draw.line(screen, color, (15, posY), (WIDTH - 15, posY), 15)
 
 # draw_asc_diagonal() - Draws a diagonal line from bottom-left to top-right for the winner.
 # Returns: None
 def draw_asc_diagonal(player):
 	color = CIRCLE_COLOR if player == 'O' else CROSS_COLOR
-	pygame.draw.line(screen, color, (15, HEIGHT - 15), (WIDTH - 15, 15), 15)
+	pg.draw.line(screen, color, (15, HEIGHT - 15), (WIDTH - 15, 15), 15)
 
 # draw_desc_diagonal() - Draws a diagonal line from top-left to bottom-right for the winner.
 # Returns: None
 def draw_desc_diagonal(player):
 	color = CIRCLE_COLOR if player == 'O' else CROSS_COLOR
-	pygame.draw.line(screen, color, (15, 15), (WIDTH - 15, HEIGHT - 15), 15)
+	pg.draw.line(screen, color, (15, 15), (WIDTH - 15, HEIGHT - 15), 15)
 
 # user_click() - Handles mouse clicks and updates the game state.
 # Returns: None
 def user_click():
-	mouseX, mouseY = pygame.mouse.get_pos()
+	mouseX, mouseY = pg.mouse.get_pos()
 	if mouseY < HEIGHT:
 		clicked_row = mouseY // 200
 		clicked_col = mouseX // 200
@@ -139,9 +139,9 @@ def user_click():
 			player = 'O' if player == 'X' else 'X'
 			draw_status()
 
-# restart() - Resets the game state to start a new match.
+# game_initiating_window() - Resets the game state to start a new match.
 # Returns: None
-def restart():
+def game_initiating_window():
 	screen.fill(BG_COLOR)
 	draw_lines()
 	for row in range(BOARD_ROWS):
@@ -153,25 +153,30 @@ player = 'X'
 game_over = False
 
 # Initial setup
-draw_lines()
+game_initiating_window()
 draw_status()
 
 # Main loop
 while True:
-	for event in pygame.event.get():
-		if event.type == pygame.QUIT:
-			pygame.quit()
+	for event in pg.event.get():
+		if event.type == pg.QUIT:
+			pg.quit()
 			sys.exit()
 
-		if event.type == pygame.MOUSEBUTTONDOWN and not game_over:
+		if event.type == pg.MOUSEBUTTONDOWN and not game_over:
 			user_click()
 
-		if event.type == pygame.KEYDOWN and event.key == pygame.K_r:
-			restart()
+		if event.type == pg.KEYDOWN and event.key == pg.K_r:
+			game_initiating_window()
 			game_over = False
 			player = 'X'
 			draw_status()
 
-	draw_figures()
-	pygame.display.update()
+	# Draw X and O symbols at the right positions
+	for row in range(BOARD_ROWS):
+		for col in range(BOARD_COLS):
+			if board[row][col]:
+				drawXO(row, col)
+
+	pg.display.update()
 	time.sleep(0.1)
