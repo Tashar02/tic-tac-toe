@@ -35,12 +35,11 @@ y_img = pygame.transform.scale(pygame.image.load('o.png'), (150, 150))
 # draw_lines() - Draws the grid lines for the tic-tac-toe board.
 # Returns: None
 def draw_lines():
-	# Horizontal lines
-	pygame.draw.line(screen, LINE_COLOR, (0, 200), (600, 200), LINE_WIDTH)
-	pygame.draw.line(screen, LINE_COLOR, (0, 400), (600, 400), LINE_WIDTH)
-	# Vertical lines
-	pygame.draw.line(screen, LINE_COLOR, (200, 0), (200, 600), LINE_WIDTH)
-	pygame.draw.line(screen, LINE_COLOR, (400, 0), (400, 600), LINE_WIDTH)
+	for row_num in range(1, BOARD_ROWS):
+		# Horizontal lines
+		pygame.draw.line(screen, LINE_COLOR, (0, row_num * 200), (WIDTH, row_num * 200), LINE_WIDTH)
+		# Vertical lines
+		pygame.draw.line(screen, LINE_COLOR, (row_num * 200, 0), (row_num * 200, HEIGHT), LINE_WIDTH)
 
 # draw_figures() - Renders X and O symbols.
 # Returns: None
