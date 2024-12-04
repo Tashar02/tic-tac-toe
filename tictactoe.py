@@ -117,10 +117,10 @@ def user_click():
 		clicked_row = mouseY // 200
 		clicked_col = mouseX // 200
 
-		if board[clicked_row][clicked_col] is None:
+		if not board[clicked_row][clicked_col]:
 			global player
 			board[clicked_row][clicked_col] = player
-			if check_winner() is not None:
+			if check_winner():
 				global game_over
 				game_over = True
 			player = 'O' if player == 'X' else 'X'
