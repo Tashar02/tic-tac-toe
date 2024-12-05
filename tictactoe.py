@@ -32,14 +32,6 @@ y_img = pg.transform.scale(pg.image.load('o.png'), (CELL_SIZE - SPACE, CELL_SIZE
 # Load font for displaying text
 font = pg.font.Font(None, 40)
 
-# Store all game data in a dictionary
-game_data = {
-	'board': [[None] * BOARD_COLS for i in range(BOARD_ROWS)],
-	'updated_cells': [],
-	'player': 'X',
-	'game_over': False
-}
-
 # draw_lines() - Draws the grid lines for the tic-tac-toe board.
 # Returns: None
 def draw_lines():
@@ -138,17 +130,14 @@ def user_click():
 def game_initiating_window():
 	screen.fill(BG_COLOR)
 	draw_lines()
-	game_data['updated_cells'].clear()
-	for row in range(BOARD_ROWS):
-		for col in range(BOARD_COLS):
-			game_data['board'][row][col] = None
-
-# reset_game() - Resets the game.
-# Returns: None
-def reset_game():
-	game_initiating_window()
-	game_data['game_over'] = False
-	game_data['player'] = 'X'
+	# Store all game data in a dictionary
+	global game_data
+	game_data = {
+		'board': [[None] * BOARD_COLS for i in range(BOARD_ROWS)],
+		'updated_cells': [],
+		'player': 'X',
+		'game_over': False
+	}
 	game_status()
 
 # event_handler - Handles input events and modifies the game state.
@@ -163,7 +152,7 @@ def event_handler():
 			user_click()
 
 		if event.type == pg.KEYDOWN and event.key == pg.K_r:
-			reset_game()
+			game_initiating_window()
 
 # update_display - Updates the game display in response to inputs.
 # Returns: None
