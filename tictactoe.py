@@ -5,12 +5,13 @@ pg.init()
 
 # Screen dimensions
 WIDTH, HEIGHT = 600, 600
-LINE_WIDTH = 15
 BOARD_ROWS, BOARD_COLS = 3, 3
-CIRCLE_RADIUS = 60
+CELL_SIZE = WIDTH // BOARD_COLS
+LINE_WIDTH = 15
+CIRCLE_RADIUS = CELL_SIZE // 3
 CIRCLE_WIDTH = 15
 CROSS_WIDTH = 25
-SPACE = 55
+SPACE = CELL_SIZE // 4
 
 # Colors
 BG_COLOR = (28, 170, 156)
@@ -28,8 +29,8 @@ screen.fill(BG_COLOR)
 board = [[None] * BOARD_COLS for i in range(BOARD_ROWS)]
 
 # Load assets for X and O
-x_img = pg.transform.scale(pg.image.load('x.png'), (150, 150))
-y_img = pg.transform.scale(pg.image.load('o.png'), (150, 150))
+x_img = pg.transform.scale(pg.image.load('x.png'), (CELL_SIZE - SPACE, CELL_SIZE - SPACE))
+y_img = pg.transform.scale(pg.image.load('o.png'), (CELL_SIZE - SPACE, CELL_SIZE - SPACE))
 
 # Load font for displaying text
 font = pg.font.Font(None, 40)
@@ -39,9 +40,9 @@ font = pg.font.Font(None, 40)
 def draw_lines():
 	for row_num in range(1, BOARD_ROWS):
 		# Horizontal lines
-		pg.draw.line(screen, LINE_COLOR, (0, row_num * 200), (WIDTH, row_num * 200), LINE_WIDTH)
+		pg.draw.line(screen, LINE_COLOR, (0, row_num * CELL_SIZE), (WIDTH, row_num * CELL_SIZE), LINE_WIDTH)
 		# Vertical lines
-		pg.draw.line(screen, LINE_COLOR, (row_num * 200, 0), (row_num * 200, HEIGHT), LINE_WIDTH)
+		pg.draw.line(screen, LINE_COLOR, (row_num * CELL_SIZE, 0), (row_num * CELL_SIZE, HEIGHT), LINE_WIDTH)
 
 # drawXO() - Renders X and O symbols.
 # Returns: None
@@ -99,14 +100,14 @@ def draw_status():
 # draw_vertical_winning_line() - Draws a vertical line for the winner.
 # Returns: None
 def draw_vertical_winning_line(col, player):
-	posX = col * 200 + 100
+	posX = col * CELL_SIZE + CELL_SIZE // 2
 	color = CIRCLE_COLOR if player == 'O' else CROSS_COLOR
 	pg.draw.line(screen, color, (posX, 15), (posX, HEIGHT - 15), 15)
 
 # draw_horizontal_winning_line() - Draws a horizontal line for the winner.
 # Returns: None
 def draw_horizontal_winning_line(row, player):
-	posY = row * 200 + 100
+	posY = row * CELL_SIZE + CELL_SIZE // 2
 	color = CIRCLE_COLOR if player == 'O' else CROSS_COLOR
 	pg.draw.line(screen, color, (15, posY), (WIDTH - 15, posY), 15)
 
@@ -127,8 +128,8 @@ def draw_desc_diagonal(player):
 def user_click():
 	mouseX, mouseY = pg.mouse.get_pos()
 	if mouseY < HEIGHT:
-		clicked_row = mouseY // 200
-		clicked_col = mouseX // 200
+		clicked_row = mouseY // CELL_SIZE
+		clicked_col = mouseX // CELL_SIZE
 
 		if not board[clicked_row][clicked_col]:
 			global player
