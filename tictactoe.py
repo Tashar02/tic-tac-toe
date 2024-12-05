@@ -1,4 +1,4 @@
-import pygame as pg, sys, time
+import pygame as pg, sys, time, os
 
 # Initialize pygame
 pg.init()
@@ -24,6 +24,12 @@ TEXT_COLOR = (255, 255, 255)
 screen = pg.display.set_mode((WIDTH, HEIGHT + 100))
 pg.display.set_caption("Tic Tac Toe")
 screen.fill(BG_COLOR)
+
+# Check if the PNGs for X and O exist
+if not os.path.exists("x.png") or not os.path.exists("o.png"):
+	print("RIP! Required images 'x.png' and 'o.png' are missing.")
+	pg.quit()
+	sys.exit()
 
 # Load assets for X and O
 x_img = pg.transform.scale(pg.image.load('x.png'), (CELL_SIZE - SPACE, CELL_SIZE - SPACE))
