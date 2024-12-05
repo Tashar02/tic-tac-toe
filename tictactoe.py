@@ -111,7 +111,7 @@ def game_status():
 		winner = check_winner()
 		if winner:
 			status = f"Player {winner} Wins! Press R to Restart"
-		elif check_draw():
+		else:
 			status = "It's a Draw! Press R to Restart"
 	text = font.render(status, True, TEXT_COLOR, BG_COLOR)
 	screen.fill(BG_COLOR, (0, HEIGHT, WIDTH, 100))
