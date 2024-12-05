@@ -140,7 +140,7 @@ def game_initiating_window():
 	}
 	game_status()
 
-# event_handler - Handles input events and modifies the game state.
+# event_handler() - Handles input events and modifies the game state.
 # Returns: None
 def event_handler():
 	for event in pg.event.get():
@@ -154,7 +154,7 @@ def event_handler():
 		if event.type == pg.KEYDOWN and event.key == pg.K_r:
 			game_initiating_window()
 
-# update_display - Updates the game display in response to inputs.
+# update_display() - Updates the game display in response to inputs.
 # Returns: None
 def update_display():
 	drawXO()
