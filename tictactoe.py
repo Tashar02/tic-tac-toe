@@ -55,6 +55,32 @@ def drawXO():
 			screen.blit(x_img, (col * CELL_SIZE + SPACE // 2, row * CELL_SIZE + SPACE // 2))
 	updated_cells.clear()
 
+# draw_vertical_winning_line() - Draws a vertical line for the winner.
+# Returns: None
+def draw_vertical_winning_line(col, player):
+	posX = col * CELL_SIZE + CELL_SIZE // 2
+	color = CIRCLE_COLOR if player == 'O' else CROSS_COLOR
+	pg.draw.line(screen, color, (posX, 15), (posX, HEIGHT - 15), 15)
+
+# draw_horizontal_winning_line() - Draws a horizontal line for the winner.
+# Returns: None
+def draw_horizontal_winning_line(row, player):
+	posY = row * CELL_SIZE + CELL_SIZE // 2
+	color = CIRCLE_COLOR if player == 'O' else CROSS_COLOR
+	pg.draw.line(screen, color, (15, posY), (WIDTH - 15, posY), 15)
+
+# draw_asc_diagonal() - Draws a diagonal line from bottom-left to top-right for the winner.
+# Returns: None
+def draw_asc_diagonal(player):
+	color = CIRCLE_COLOR if player == 'O' else CROSS_COLOR
+	pg.draw.line(screen, color, (15, HEIGHT - 15), (WIDTH - 15, 15), 15)
+
+# draw_desc_diagonal() - Draws a diagonal line from top-left to bottom-right for the winner.
+# Returns: None
+def draw_desc_diagonal(player):
+	color = CIRCLE_COLOR if player == 'O' else CROSS_COLOR
+	pg.draw.line(screen, color, (15, 15), (WIDTH - 15, HEIGHT - 15), 15)
+
 # check_winner() - Checks if there's a winner and draws the winning line.
 # Returns: 'X' or 'O' if there's a winner, None otherwise.
 def check_winner():
@@ -100,32 +126,6 @@ def game_status():
 	screen.fill(BG_COLOR, (0, HEIGHT, WIDTH, 100))
 	screen.blit(text, (20, HEIGHT + 20))
 
-# draw_vertical_winning_line() - Draws a vertical line for the winner.
-# Returns: None
-def draw_vertical_winning_line(col, player):
-	posX = col * CELL_SIZE + CELL_SIZE // 2
-	color = CIRCLE_COLOR if player == 'O' else CROSS_COLOR
-	pg.draw.line(screen, color, (posX, 15), (posX, HEIGHT - 15), 15)
-
-# draw_horizontal_winning_line() - Draws a horizontal line for the winner.
-# Returns: None
-def draw_horizontal_winning_line(row, player):
-	posY = row * CELL_SIZE + CELL_SIZE // 2
-	color = CIRCLE_COLOR if player == 'O' else CROSS_COLOR
-	pg.draw.line(screen, color, (15, posY), (WIDTH - 15, posY), 15)
-
-# draw_asc_diagonal() - Draws a diagonal line from bottom-left to top-right for the winner.
-# Returns: None
-def draw_asc_diagonal(player):
-	color = CIRCLE_COLOR if player == 'O' else CROSS_COLOR
-	pg.draw.line(screen, color, (15, HEIGHT - 15), (WIDTH - 15, 15), 15)
-
-# draw_desc_diagonal() - Draws a diagonal line from top-left to bottom-right for the winner.
-# Returns: None
-def draw_desc_diagonal(player):
-	color = CIRCLE_COLOR if player == 'O' else CROSS_COLOR
-	pg.draw.line(screen, color, (15, 15), (WIDTH - 15, HEIGHT - 15), 15)
-
 # user_click() - Handles mouse clicks and updates the game state.
 # Returns: None
 def user_click():
@@ -144,7 +144,7 @@ def user_click():
 			player = 'O' if player == 'X' else 'X'
 			game_status()
 
-# game_initiating_window() - Resets the game state to start a new match.
+# game_initiating_window() - Initializes a new match for the game.
 # Returns: None
 def game_initiating_window():
 	screen.fill(BG_COLOR)
@@ -154,16 +154,19 @@ def game_initiating_window():
 		for col in range(BOARD_COLS):
 			board[row][col] = None
 
-# Main loop variables
-player = 'X'
-game_over = False
+# reset_game() - Resets the game.
+# Returns: None
+def reset_game():
+	global game_over, player
+	game_initiating_window()
+	game_over = False
+	player = 'X'
+	game_status()
 
-# Initial setup
-game_initiating_window()
-game_status()
-
-# Main loop
-while True:
+# event_handler - Handles input events and modifies the game state.
+# Returns: None
+def event_handler():
+	global game_over, player
 	for event in pg.event.get():
 		if event.type == pg.QUIT:
 			pg.quit()
@@ -173,13 +176,30 @@ while True:
 			user_click()
 
 		if event.type == pg.KEYDOWN and event.key == pg.K_r:
-			game_initiating_window()
-			game_over = False
-			player = 'X'
-			game_status()
+			reset_game()
 
-	# Draw X and O symbols at the updated positions
+# update_display - Updates the game display in response to inputs.
+# Returns: None
+def update_display():
 	drawXO()
-
+	game_status()
 	pg.display.update()
+
+## Begin Tic Tac Toe
+# Main loop variables
+player = 'X'
+game_over = False
+
+# Initial game board setup
+game_initiating_window()
+
+# Begin the match
+while True:
+	# Handle user input events
+	event_handler()
+
+	# Draw and update the game display
+	update_display()
+
+	# Time interval for a player to provide input after another
 	time.sleep(0.1)
