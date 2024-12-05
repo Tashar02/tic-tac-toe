@@ -27,6 +27,7 @@ screen.fill(BG_COLOR)
 
 # Board state
 board = [[None] * BOARD_COLS for i in range(BOARD_ROWS)]
+updated_cells = []  # List to track cells that need updating
 
 # Load assets for X and O
 x_img = pg.transform.scale(pg.image.load('x.png'), (CELL_SIZE - SPACE, CELL_SIZE - SPACE))
@@ -44,15 +45,17 @@ def draw_lines():
 		# Vertical lines
 		pg.draw.line(screen, LINE_COLOR, (row_num * CELL_SIZE, 0), (row_num * CELL_SIZE, HEIGHT), LINE_WIDTH)
 
-# drawXO() - Renders X and O symbols.
+# drawXO() - Renders X and O symbols for updated cells.
 # Returns: None
-def drawXO(row, col):
-	if board[row][col] == 'O':
-		screen.blit(y_img, (col * 200 + 25, row * 200 + 25))
-	elif board[row][col] == 'X':
-		screen.blit(x_img, (col * 200 + 25, row * 200 + 25))
+def drawXO():
+	for row, col in updated_cells:
+		if board[row][col] == 'O':
+			screen.blit(y_img, (col * CELL_SIZE + SPACE // 2, row * CELL_SIZE + SPACE // 2))
+		elif board[row][col] == 'X':
+			screen.blit(x_img, (col * CELL_SIZE + SPACE // 2, row * CELL_SIZE + SPACE // 2))
+	updated_cells.clear()
 
-# check_winner() - Draws the winning line if a winner exists.
+# check_winner() - Checks if there's a winner and draws the winning line.
 # Returns: 'X' or 'O' if there's a winner, None otherwise.
 def check_winner():
 	# Check for a winner in rows and columns
@@ -134,6 +137,7 @@ def user_click():
 		if not board[clicked_row][clicked_col]:
 			global player
 			board[clicked_row][clicked_col] = player
+			updated_cells.append((clicked_row, clicked_col))
 			if check_winner() or check_draw():
 				global game_over
 				game_over = True
@@ -145,6 +149,7 @@ def user_click():
 def game_initiating_window():
 	screen.fill(BG_COLOR)
 	draw_lines()
+	updated_cells.clear()
 	for row in range(BOARD_ROWS):
 		for col in range(BOARD_COLS):
 			board[row][col] = None
@@ -173,11 +178,8 @@ while True:
 			player = 'X'
 			draw_status()
 
-	# Draw X and O symbols at the right positions
-	for row in range(BOARD_ROWS):
-		for col in range(BOARD_COLS):
-			if board[row][col]:
-				drawXO(row, col)
+	# Draw X and O symbols at the updated positions
+	drawXO()
 
 	pg.display.update()
 	time.sleep(0.1)
