@@ -39,11 +39,11 @@ font = pg.font.Font(None, 40)
 # draw_lines() - Draws the grid lines for the tic-tac-toe board.
 # Returns: None
 def draw_lines():
-	for row_num in range(1, BOARD_ROWS):
+	for row in range(1, BOARD_ROWS):
 		# Horizontal lines
-		pg.draw.line(screen, LINE_COLOR, (0, row_num * CELL_SIZE), (WIDTH, row_num * CELL_SIZE), LINE_WIDTH)
+		pg.draw.line(screen, LINE_COLOR, (0, row * CELL_SIZE), (WIDTH, row * CELL_SIZE), LINE_WIDTH)
 		# Vertical lines
-		pg.draw.line(screen, LINE_COLOR, (row_num * CELL_SIZE, 0), (row_num * CELL_SIZE, HEIGHT), LINE_WIDTH)
+		pg.draw.line(screen, LINE_COLOR, (row * CELL_SIZE, 0), (row * CELL_SIZE, HEIGHT), LINE_WIDTH)
 
 # drawXO() - Renders X and O symbols for updated cells.
 # Returns: None
