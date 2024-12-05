@@ -97,9 +97,9 @@ def check_winner():
 # check_draw() - Checks if the game is a draw (board is full but no winner).
 # Returns: True if draw, False otherwise.
 def check_draw():
-	for row in range(BOARD_ROWS):
-		for col in range(BOARD_COLS):
-			if game_data['board'][row][col] is None:
+	for row in game_data['board']:
+		for cell in row:
+			if not cell:
 				return False
 	return True
 
