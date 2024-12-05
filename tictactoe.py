@@ -53,10 +53,8 @@ def draw_lines():
 # Returns: None
 def drawXO():
 	for row, col in game_data['updated_cells']:
-		if game_data['board'][row][col] == 'O':
-			screen.blit(y_img, (col * CELL_SIZE + SPACE // 2, row * CELL_SIZE + SPACE // 2))
-		elif game_data['board'][row][col] == 'X':
-			screen.blit(x_img, (col * CELL_SIZE + SPACE // 2, row * CELL_SIZE + SPACE // 2))
+		img = y_img if game_data['board'][row][col] == 'O' else x_img
+		screen.blit(img, (col * CELL_SIZE + SPACE // 2, row * CELL_SIZE + SPACE // 2))
 	game_data['updated_cells'].clear()
 
 # draw_vertical_winning_line() - Draws a vertical line for the winner.
