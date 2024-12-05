@@ -86,9 +86,9 @@ def check_draw():
 				return False
 	return True
 
-# draw_status() - Displays the current game status (whose turn or the winner).
+# game_status() - Displays the current game status (whose turn or the winner).
 # Returns: None
-def draw_status():
+def game_status():
 	status = "Player X's Turn" if player == 'X' else "Player O's Turn"
 	if game_over:
 		winner = check_winner()
@@ -142,7 +142,7 @@ def user_click():
 				global game_over
 				game_over = True
 			player = 'O' if player == 'X' else 'X'
-			draw_status()
+			game_status()
 
 # game_initiating_window() - Resets the game state to start a new match.
 # Returns: None
@@ -160,7 +160,7 @@ game_over = False
 
 # Initial setup
 game_initiating_window()
-draw_status()
+game_status()
 
 # Main loop
 while True:
@@ -176,7 +176,7 @@ while True:
 			game_initiating_window()
 			game_over = False
 			player = 'X'
-			draw_status()
+			game_status()
 
 	# Draw X and O symbols at the updated positions
 	drawXO()
