@@ -57,31 +57,20 @@ def drawXO():
 		screen.blit(img, (col * CELL_SIZE + SPACE // 2, row * CELL_SIZE + SPACE // 2))
 	game_data['updated_cells'].clear()
 
-# draw_vertical_winning_line() - Draws a vertical line for the winner.
+# draw_winning_line() - Draws winning lines for the winner.
 # Returns: None
-def draw_vertical_winning_line(col, player):
-	posX = col * CELL_SIZE + CELL_SIZE // 2
+def draw_winning_line(player, line_type, row = None):
 	color = CIRCLE_COLOR if player == 'O' else CROSS_COLOR
-	pg.draw.line(screen, color, (posX, 15), (posX, HEIGHT - 15), 15)
-
-# draw_horizontal_winning_line() - Draws a horizontal line for the winner.
-# Returns: None
-def draw_horizontal_winning_line(row, player):
-	posY = row * CELL_SIZE + CELL_SIZE // 2
-	color = CIRCLE_COLOR if player == 'O' else CROSS_COLOR
-	pg.draw.line(screen, color, (15, posY), (WIDTH - 15, posY), 15)
-
-# draw_asc_diagonal() - Draws a diagonal line from bottom-left to top-right for the winner.
-# Returns: None
-def draw_asc_diagonal(player):
-	color = CIRCLE_COLOR if player == 'O' else CROSS_COLOR
-	pg.draw.line(screen, color, (15, HEIGHT - 15), (WIDTH - 15, 15), 15)
-
-# draw_desc_diagonal() - Draws a diagonal line from top-left to bottom-right for the winner.
-# Returns: None
-def draw_desc_diagonal(player):
-	color = CIRCLE_COLOR if player == 'O' else CROSS_COLOR
-	pg.draw.line(screen, color, (15, 15), (WIDTH - 15, HEIGHT - 15), 15)
+	if line_type == 'vertical':
+		posX = col * CELL_SIZE + CELL_SIZE // 2
+		pg.draw.line(screen, color, (posX, 15), (posX, HEIGHT - 15), 15)
+	elif line_type == 'horizontal':
+		posY = row * CELL_SIZE + CELL_SIZE // 2
+		pg.draw.line(screen, color, (15, posY), (WIDTH - 15, posY), 15)
+	elif line_type == 'asc_diagonal':
+		pg.draw.line(screen, color, (15, HEIGHT - 15), (WIDTH - 15, 15), LINE_WIDTH)
+	elif line_type == 'desc_diagonal':
+		pg.draw.line(screen, color, (15, 15), (WIDTH - 15, HEIGHT - 15), LINE_WIDTH)
 
 # check_winner() - Checks if there's a winner and draws the winning line.
 # Returns: 'X' or 'O' if there's a winner, None otherwise.
@@ -89,18 +78,18 @@ def check_winner():
 	# Check for a winner in rows and columns
 	for i in range(BOARD_ROWS):
 		if game_data['board'][i][0] == game_data['board'][i][1] == game_data['board'][i][2] and game_data['board'][i][0]:
-			draw_horizontal_winning_line(i, game_data['board'][i][0])
+			draw_winning_line(game_data['board'][i][0], 'horizontal', i)
 			return game_data['board'][i][0]
 		if game_data['board'][0][i] == game_data['board'][1][i] == game_data['board'][2][i] and game_data['board'][0][i]:
-			draw_vertical_winning_line(i, game_data['board'][0][i])
+			draw_winning_line(game_data['board'][0][i], 'vertical', i)
 			return game_data['board'][0][i]
 
 	# Check for a winner in diagonals
 	if game_data['board'][0][0] == game_data['board'][1][1] == game_data['board'][2][2] and game_data['board'][0][0]:
-		draw_desc_diagonal(game_data['board'][0][0])
+		draw_winning_line(game_data['board'][0][0], 'desc_diagonal')
 		return game_data['board'][0][0]
 	if game_data['board'][0][2] == game_data['board'][1][1] == game_data['board'][2][0] and game_data['board'][0][2]:
-		draw_asc_diagonal(game_data['board'][0][2])
+		draw_winning_line(game_data['board'][0][2], 'asc_diagonal')
 		return game_data['board'][0][2]
 
 	return None
