@@ -59,14 +59,12 @@ def drawXO():
 
 # draw_winning_line() - Draws winning lines for the winner.
 # Returns: None
-def draw_winning_line(player, line_type, row = None):
+def draw_winning_line(player, line_type, pos = None):
 	color = CIRCLE_COLOR if player == 'O' else CROSS_COLOR
 	if line_type == 'vertical':
-		posX = col * CELL_SIZE + CELL_SIZE // 2
-		pg.draw.line(screen, color, (posX, 15), (posX, HEIGHT - 15), 15)
+		pg.draw.line(screen, color, (pos * CELL_SIZE + CELL_SIZE // 2, 15), (pos * CELL_SIZE + CELL_SIZE // 2, HEIGHT - 15), LINE_WIDTH)
 	elif line_type == 'horizontal':
-		posY = row * CELL_SIZE + CELL_SIZE // 2
-		pg.draw.line(screen, color, (15, posY), (WIDTH - 15, posY), 15)
+		pg.draw.line(screen, color, (15, pos * CELL_SIZE + CELL_SIZE // 2), (WIDTH - 15, pos * CELL_SIZE + CELL_SIZE // 2), LINE_WIDTH)
 	elif line_type == 'asc_diagonal':
 		pg.draw.line(screen, color, (15, HEIGHT - 15), (WIDTH - 15, 15), LINE_WIDTH)
 	elif line_type == 'desc_diagonal':
