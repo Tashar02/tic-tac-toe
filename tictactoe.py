@@ -1,4 +1,4 @@
-import pygame as pg, sys, time, os
+import pygame as pg, sys, time, os, wget
 
 # Initialize pygame
 pg.init()
@@ -26,10 +26,12 @@ pg.display.set_caption("Tic Tac Toe")
 screen.fill(BG_COLOR)
 
 # Check if the PNGs for X and O exist
-if not os.path.exists("x.png") or not os.path.exists("o.png"):
-	print("RIP! Required images 'x.png' and 'o.png' are missing.")
-	pg.quit()
-	sys.exit()
+if not os.path.exists("x.png"):
+	print('\nDownloading missing x.png...')
+	wget.download('https://raw.githubusercontent.com/Tashar02/tic-tac-toe/main/x.png', 'x.png')
+if not os.path.exists("o.png"):
+	print('\nDownloading missing o.png...')
+	wget.download('https://raw.githubusercontent.com/Tashar02/tic-tac-toe/main/o.png', 'o.png')
 
 # Load assets for X and O
 x_img = pg.transform.scale(pg.image.load('x.png'), (CELL_SIZE - SPACE, CELL_SIZE - SPACE))
@@ -169,6 +171,7 @@ def update_display():
 
 ## Begin Tic Tac Toe
 # Initial game board setup
+print('\nStarting the program...')
 game_initiating_window()
 
 # Start the match
