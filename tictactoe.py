@@ -39,7 +39,7 @@ x_img = pg.transform.scale(pg.image.load('x.png'), (CELL_SIZE - SPACE, CELL_SIZE
 y_img = pg.transform.scale(pg.image.load('o.png'), (CELL_SIZE - SPACE, CELL_SIZE - SPACE))
 bg_img = pg.transform.scale(pg.image.load('bg.png'), (WIDTH, HEIGHT))
 
-# Load font for displaying text
+# Load basic bitmap font for displaying text
 font = pg.font.Font(None, 40)
 
 # draw_grid() - Draws the grid lines for the tic-tac-toe board.
