@@ -22,7 +22,6 @@ TEXT_COLOR = (255, 255, 255)
 # Initialize screen
 screen = pg.display.set_mode((WIDTH, HEIGHT + 100))
 pg.display.set_caption("Tic Tac Toe")
-screen.fill(BG_COLOR)
 
 # Check if the PNGs for X and O exist
 if not os.path.exists("x.png"):
