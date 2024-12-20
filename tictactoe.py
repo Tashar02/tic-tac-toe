@@ -15,9 +15,8 @@ SPACE = CELL_SIZE // 4
 
 # Colors
 BG_COLOR = (28, 170, 156)
-LINE_COLOR = (23, 145, 135)
-CIRCLE_COLOR = (239, 231, 200)
-CROSS_COLOR = (66, 66, 66)
+GRID_COLOR = (23, 145, 135)
+WIN_LINE_COLOR = (66, 66, 66)
 TEXT_COLOR = (255, 255, 255)
 
 # Initialize screen
@@ -40,14 +39,14 @@ y_img = pg.transform.scale(pg.image.load('o.png'), (CELL_SIZE - SPACE, CELL_SIZE
 # Load font for displaying text
 font = pg.font.Font(None, 40)
 
-# draw_lines() - Draws the grid lines for the tic-tac-toe board.
+# draw_grid() - Draws the grid lines for the tic-tac-toe board.
 # Returns: None
-def draw_lines():
+def draw_grid():
 	for row in range(1, BOARD_ROWS):
 		# Horizontal lines
-		pg.draw.line(screen, LINE_COLOR, (0, row * CELL_SIZE), (WIDTH, row * CELL_SIZE), LINE_WIDTH)
+		pg.draw.line(screen, GRID_COLOR, (0, row * CELL_SIZE), (WIDTH, row * CELL_SIZE), LINE_WIDTH)
 		# Vertical lines
-		pg.draw.line(screen, LINE_COLOR, (row * CELL_SIZE, 0), (row * CELL_SIZE, HEIGHT), LINE_WIDTH)
+		pg.draw.line(screen, GRID_COLOR, (row * CELL_SIZE, 0), (row * CELL_SIZE, HEIGHT), LINE_WIDTH)
 
 # drawXO() - Renders X and O symbols for updated cells.
 # Returns: None
@@ -60,15 +59,14 @@ def drawXO():
 # draw_winning_line() - Draws winning lines for the winner.
 # Returns: None
 def draw_winning_line(player, line_type, pos = None):
-	color = CIRCLE_COLOR if player == 'O' else CROSS_COLOR
 	if line_type == 'vertical':
-		pg.draw.line(screen, color, (pos * CELL_SIZE + CELL_SIZE // 2, 15), (pos * CELL_SIZE + CELL_SIZE // 2, HEIGHT - 15), LINE_WIDTH)
+		pg.draw.line(screen, WIN_LINE_COLOR, (pos * CELL_SIZE + CELL_SIZE // 2, 15), (pos * CELL_SIZE + CELL_SIZE // 2, HEIGHT - 15), LINE_WIDTH)
 	elif line_type == 'horizontal':
-		pg.draw.line(screen, color, (15, pos * CELL_SIZE + CELL_SIZE // 2), (WIDTH - 15, pos * CELL_SIZE + CELL_SIZE // 2), LINE_WIDTH)
+		pg.draw.line(screen, WIN_LINE_COLOR, (15, pos * CELL_SIZE + CELL_SIZE // 2), (WIDTH - 15, pos * CELL_SIZE + CELL_SIZE // 2), LINE_WIDTH)
 	elif line_type == 'asc_diagonal':
-		pg.draw.line(screen, color, (15, HEIGHT - 15), (WIDTH - 15, 15), LINE_WIDTH)
+		pg.draw.line(screen, WIN_LINE_COLOR, (15, HEIGHT - 15), (WIDTH - 15, 15), LINE_WIDTH)
 	elif line_type == 'desc_diagonal':
-		pg.draw.line(screen, color, (15, 15), (WIDTH - 15, HEIGHT - 15), LINE_WIDTH)
+		pg.draw.line(screen, WIN_LINE_COLOR, (15, 15), (WIDTH - 15, HEIGHT - 15), LINE_WIDTH)
 
 # check_winner() - Checks if there's a winner and draws the winning line.
 # Returns: 'X' or 'O' if there's a winner, None otherwise.
@@ -135,7 +133,7 @@ def user_click():
 # Returns: None
 def game_initiating_window():
 	screen.fill(BG_COLOR)
-	draw_lines()
+	draw_grid()
 	# Store all game data in a dictionary
 	global game_data
 	game_data = {
