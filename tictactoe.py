@@ -23,17 +23,21 @@ TEXT_COLOR = (255, 255, 255)
 screen = pg.display.set_mode((WIDTH, HEIGHT + 100))
 pg.display.set_caption("Tic Tac Toe")
 
-# Check if the PNGs for X and O exist
+# Check if the PNGs for X, O and background exist
 if not os.path.exists("x.png"):
 	print('\nDownloading missing x.png...')
 	wget.download('https://raw.githubusercontent.com/Tashar02/tic-tac-toe/main/x.png', 'x.png')
 if not os.path.exists("o.png"):
 	print('\nDownloading missing o.png...')
 	wget.download('https://raw.githubusercontent.com/Tashar02/tic-tac-toe/main/o.png', 'o.png')
+if not os.path.exists("bg.png"):
+	print('\nDownloading missing bg.png...')
+	wget.download('https://raw.githubusercontent.com/Tashar02/tic-tac-toe/main/bg.png', 'bg.png')
 
-# Load assets for X and O
+# Load assets for X, O and background
 x_img = pg.transform.scale(pg.image.load('x.png'), (CELL_SIZE - SPACE, CELL_SIZE - SPACE))
 y_img = pg.transform.scale(pg.image.load('o.png'), (CELL_SIZE - SPACE, CELL_SIZE - SPACE))
+bg_img = pg.transform.scale(pg.image.load('bg.png'), (WIDTH, HEIGHT))
 
 # Load font for displaying text
 font = pg.font.Font(None, 40)
@@ -131,7 +135,7 @@ def user_click():
 # game_initiating_window() - Initializes a new match for the game.
 # Returns: None
 def game_initiating_window():
-	screen.fill(BG_COLOR)
+	screen.blit(bg_img, (0, 0))
 	draw_grid()
 	# Store all game data in a dictionary
 	global game_data
