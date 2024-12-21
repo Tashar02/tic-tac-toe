@@ -38,9 +38,9 @@ for filename, url in assets.items():
 			sys.exit()
 
 # Load assets
-x_img = pg.transform.scale(pg.image.load('x.png'), (CELL_SIZE - SPACE, CELL_SIZE - SPACE))
-y_img = pg.transform.scale(pg.image.load('o.png'), (CELL_SIZE - SPACE, CELL_SIZE - SPACE))
-bg_img = pg.transform.scale(pg.image.load('bg.png'), (WIDTH, HEIGHT))
+x_img = pg.transform.scale(pg.image.load("x.png"), (CELL_SIZE - SPACE, CELL_SIZE - SPACE))
+y_img = pg.transform.scale(pg.image.load("o.png"), (CELL_SIZE - SPACE, CELL_SIZE - SPACE))
+bg_img = pg.transform.scale(pg.image.load("bg.png"), (WIDTH, HEIGHT))
 
 # Load basic bitmap font for displaying text
 font = pg.font.Font(None, 40)
@@ -61,49 +61,49 @@ def draw_grid():
 # drawXO() - Renders X and O symbols for updated cells.
 # Returns: None
 def drawXO():
-	for row, col in game_data['updated_cells']:
-		img = y_img if game_data['board'][row][col] == 'O' else x_img
+	for row, col in game_data["updated_cells"]:
+		img = y_img if game_data["board"][row][col] == "O" else x_img
 		screen.blit(img, (col * CELL_SIZE + SPACE // 2, row * CELL_SIZE + SPACE // 2))
-	game_data['updated_cells'].clear()
+	game_data["updated_cells"].clear()
 
 # draw_winning_line() - Draws winning lines for the winner.
 # Returns: None
 def draw_winning_line(player, line_type, pos = None):
-	if line_type == 'vertical':
+	if line_type == "vertical":
 		pg.draw.line(screen, WIN_LINE_COLOR, (pos * CELL_SIZE + CELL_SIZE // 2, 15), (pos * CELL_SIZE + CELL_SIZE // 2, HEIGHT - 15), LINE_WIDTH)
-	elif line_type == 'horizontal':
+	elif line_type == "horizontal":
 		pg.draw.line(screen, WIN_LINE_COLOR, (15, pos * CELL_SIZE + CELL_SIZE // 2), (WIDTH - 15, pos * CELL_SIZE + CELL_SIZE // 2), LINE_WIDTH)
-	elif line_type == 'asc_diagonal':
+	elif line_type == "asc_diagonal":
 		pg.draw.line(screen, WIN_LINE_COLOR, (15, HEIGHT - 15), (WIDTH - 15, 15), LINE_WIDTH)
-	elif line_type == 'desc_diagonal':
+	elif line_type == "desc_diagonal":
 		pg.draw.line(screen, WIN_LINE_COLOR, (15, 15), (WIDTH - 15, HEIGHT - 15), LINE_WIDTH)
 
 # check_winner() - Checks if there's a winner and draws the winning line.
-# Returns: 'X' or 'O' if there's a winner, None otherwise.
+# Returns: "X" or "O" if there's a winner, None otherwise.
 def check_winner():
 	# Check for a winner in rows and columns
 	for i in range(BOARD_ROWS):
-		if game_data['board'][i][0] == game_data['board'][i][1] == game_data['board'][i][2] and game_data['board'][i][0]:
-			draw_winning_line(game_data['board'][i][0], 'horizontal', i)
-			return game_data['board'][i][0]
-		if game_data['board'][0][i] == game_data['board'][1][i] == game_data['board'][2][i] and game_data['board'][0][i]:
-			draw_winning_line(game_data['board'][0][i], 'vertical', i)
-			return game_data['board'][0][i]
+		if game_data["board"][i][0] == game_data["board"][i][1] == game_data["board"][i][2] and game_data["board"][i][0]:
+			draw_winning_line(game_data["board"][i][0], "horizontal", i)
+			return game_data["board"][i][0]
+		if game_data["board"][0][i] == game_data["board"][1][i] == game_data["board"][2][i] and game_data["board"][0][i]:
+			draw_winning_line(game_data["board"][0][i], "vertical", i)
+			return game_data["board"][0][i]
 
 	# Check for a winner in diagonals
-	if game_data['board'][0][0] == game_data['board'][1][1] == game_data['board'][2][2] and game_data['board'][0][0]:
-		draw_winning_line(game_data['board'][0][0], 'desc_diagonal')
-		return game_data['board'][0][0]
-	if game_data['board'][0][2] == game_data['board'][1][1] == game_data['board'][2][0] and game_data['board'][0][2]:
-		draw_winning_line(game_data['board'][0][2], 'asc_diagonal')
-		return game_data['board'][0][2]
+	if game_data["board"][0][0] == game_data["board"][1][1] == game_data["board"][2][2] and game_data["board"][0][0]:
+		draw_winning_line(game_data["board"][0][0], "desc_diagonal")
+		return game_data["board"][0][0]
+	if game_data["board"][0][2] == game_data["board"][1][1] == game_data["board"][2][0] and game_data["board"][0][2]:
+		draw_winning_line(game_data["board"][0][2], "asc_diagonal")
+		return game_data["board"][0][2]
 
 	return None
 
 # check_draw() - Checks if the game is a draw (board is full but no winner).
 # Returns: True if draw, False otherwise.
 def check_draw():
-	for row in game_data['board']:
+	for row in game_data["board"]:
 		for cell in row:
 			if not cell:
 				return False
@@ -112,14 +112,14 @@ def check_draw():
 # game_status() - Displays the current game status (whose turn or the winner).
 # Returns: None
 def game_status():
-	if game_data['game_over']:
+	if game_data["game_over"]:
 		winner = check_winner()
 		if winner:
 			status = f"Player {winner} Wins! Press R to Restart"
 		else:
 			status = "It's a Draw! Press R to Restart"
 	else:
-		status = "Player X's Turn" if game_data['player'] == 'X' else "Player O's Turn"
+		status = "Player X's Turn" if game_data["player"] == "X" else "Player O's Turn"
 
 	text = font.render(status, True, TEXT_COLOR, BG_COLOR)
 	screen.fill(BG_COLOR, (0, HEIGHT, WIDTH, 100))
@@ -133,13 +133,13 @@ def user_click():
 		clicked_row = mouseY // CELL_SIZE
 		clicked_col = mouseX // CELL_SIZE
 
-		if not game_data['board'][clicked_row][clicked_col]:
-			game_data['board'][clicked_row][clicked_col] = game_data['player']
-			game_data['updated_cells'].append((clicked_row, clicked_col))
+		if not game_data["board"][clicked_row][clicked_col]:
+			game_data["board"][clicked_row][clicked_col] = game_data["player"]
+			game_data["updated_cells"].append((clicked_row, clicked_col))
 			if check_winner() or check_draw():
-				game_data['game_over'] = True
+				game_data["game_over"] = True
 			else:
-				game_data['player'] = 'O' if game_data['player'] == 'X' else 'X'
+				game_data["player"] = "O" if game_data["player"] == "X" else "X"
 
 # game_initiating_window() - Initializes a new match for the game.
 # Returns: None
@@ -149,10 +149,10 @@ def game_initiating_window():
 	# Store all game data in a dictionary
 	global game_data
 	game_data = {
-		'board': [[None] * BOARD_COLS for i in range(BOARD_ROWS)],
-		'updated_cells': [],
-		'player': 'X',
-		'game_over': False
+		"board": [[None] * BOARD_COLS for i in range(BOARD_ROWS)],
+		"updated_cells": [],
+		"player": "X",
+		"game_over": False
 	}
 
 # event_handler() - Handles input events and modifies the game state.
@@ -163,7 +163,7 @@ def event_handler():
 			pg.quit()
 			sys.exit()
 
-		if event.type == pg.MOUSEBUTTONDOWN and not game_data['game_over']:
+		if event.type == pg.MOUSEBUTTONDOWN and not game_data["game_over"]:
 			user_click()
 
 		if event.type == pg.KEYDOWN and event.key == pg.K_r:
@@ -178,7 +178,7 @@ def update_display():
 
 ## Begin Tic Tac Toe
 # Initial game board setup
-print('\nStarting the program...')
+print("\nStarting the program...")
 game_initiating_window()
 
 # Start the match
