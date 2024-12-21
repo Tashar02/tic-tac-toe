@@ -19,28 +19,35 @@ GRID_COLOR = (35, 48, 40)
 WIN_LINE_COLOR = (66, 66, 66)
 TEXT_COLOR = (255, 255, 255)
 
-# Initialize screen
-screen = pg.display.set_mode((WIDTH, HEIGHT + 100))
-pg.display.set_caption("Tic Tac Toe")
+# Download assets (X, O and background) if unavailable
+assets = {
+	"x.png": "https://raw.githubusercontent.com/Tashar02/tic-tac-toe/main/x.png",
+	"o.png": "https://raw.githubusercontent.com/Tashar02/tic-tac-toe/main/o.png",
+	"bg.png": "https://raw.githubusercontent.com/Tashar02/tic-tac-toe/main/bg.png",
+}
 
-# Check if the PNGs for X, O and background exist
-if not os.path.exists("x.png"):
-	print('\nDownloading missing x.png...')
-	wget.download('https://raw.githubusercontent.com/Tashar02/tic-tac-toe/main/x.png', 'x.png')
-if not os.path.exists("o.png"):
-	print('\nDownloading missing o.png...')
-	wget.download('https://raw.githubusercontent.com/Tashar02/tic-tac-toe/main/o.png', 'o.png')
-if not os.path.exists("bg.png"):
-	print('\nDownloading missing bg.png...')
-	wget.download('https://raw.githubusercontent.com/Tashar02/tic-tac-toe/main/bg.png', 'bg.png')
+for filename, url in assets.items():
+	if not os.path.exists(filename):
+		try:
+			print(f"\nDownloading {filename}...")
+			wget.download(url, filename)
+		except Exception as e:
+			print(f"Error downloading {filename}: {e}")
+			print("Exiting program!")
+			pg.quit()
+			sys.exit()
 
-# Load assets for X, O and background
+# Load assets
 x_img = pg.transform.scale(pg.image.load('x.png'), (CELL_SIZE - SPACE, CELL_SIZE - SPACE))
 y_img = pg.transform.scale(pg.image.load('o.png'), (CELL_SIZE - SPACE, CELL_SIZE - SPACE))
 bg_img = pg.transform.scale(pg.image.load('bg.png'), (WIDTH, HEIGHT))
 
 # Load basic bitmap font for displaying text
 font = pg.font.Font(None, 40)
+
+# Initialize screen
+screen = pg.display.set_mode((WIDTH, HEIGHT + 100))
+pg.display.set_caption("Tic Tac Toe")
 
 # draw_grid() - Draws the grid lines for the tic-tac-toe board.
 # Returns: None
