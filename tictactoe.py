@@ -1,3 +1,8 @@
+# SPDX-License-Identifier: MIT
+#
+# Copyright (C) 2024 Tashfin Shakeer Rhythm <tashfinshakeerrhythm@gmail.com>
+#
+
 import pygame as pg, sys, time, os, wget
 
 # Initialize pygame
