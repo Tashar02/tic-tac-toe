@@ -112,13 +112,15 @@ def check_draw():
 # game_status() - Displays the current game status (whose turn or the winner).
 # Returns: None
 def game_status():
-	status = "Player X's Turn" if game_data['player'] == 'X' else "Player O's Turn"
 	if game_data['game_over']:
 		winner = check_winner()
 		if winner:
 			status = f"Player {winner} Wins! Press R to Restart"
 		else:
 			status = "It's a Draw! Press R to Restart"
+	else:
+		status = "Player X's Turn" if game_data['player'] == 'X' else "Player O's Turn"
+
 	text = font.render(status, True, TEXT_COLOR, BG_COLOR)
 	screen.fill(BG_COLOR, (0, HEIGHT, WIDTH, 100))
 	screen.blit(text, (20, HEIGHT + 30))
