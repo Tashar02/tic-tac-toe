@@ -138,8 +138,8 @@ def user_click():
 			game_data['updated_cells'].append((clicked_row, clicked_col))
 			if check_winner() or check_draw():
 				game_data['game_over'] = True
-			game_data['player'] = 'O' if game_data['player'] == 'X' else 'X'
-			game_status()
+			else:
+				game_data['player'] = 'O' if game_data['player'] == 'X' else 'X'
 
 # game_initiating_window() - Initializes a new match for the game.
 # Returns: None
@@ -154,7 +154,6 @@ def game_initiating_window():
 		'player': 'X',
 		'game_over': False
 	}
-	game_status()
 
 # event_handler() - Handles input events and modifies the game state.
 # Returns: None
