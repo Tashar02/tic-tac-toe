@@ -3,7 +3,8 @@
 # Copyright (C) 2024 Tashfin Shakeer Rhythm <tashfinshakeerrhythm@gmail.com>
 #
 
-import pygame as pg, sys, time, os, wget
+import pygame as pg, sys, time, os
+from urllib import request
 
 # Initialize pygame
 pg.init()
@@ -31,16 +32,19 @@ assets = {
 	"bg.png": "https://raw.githubusercontent.com/Tashar02/tic-tac-toe/main/bg.png",
 }
 
-for filename, url in assets.items():
-	if not os.path.exists(filename):
-		try:
-			print(f"\nDownloading {filename}...")
-			wget.download(url, filename)
-		except Exception as e:
-			print(f"Error downloading {filename}: {e}")
-			print("Exiting program!")
-			pg.quit()
-			sys.exit()
+def download_assets(assets):
+	for filename, url in assets.items():
+		if not os.path.exists(filename):
+			try:
+				print(f"\nDownloading {filename}...")
+				request.urlretrieve(url, filename)
+			except Exception as e:
+				print(f"Error downloading {filename}: {e}")
+				print("Exiting program!")
+				pg.quit()
+				sys.exit()
+
+download_assets(assets)
 
 # Load assets
 x_img = pg.transform.scale(pg.image.load("x.png"), (CELL_SIZE - SPACE, CELL_SIZE - SPACE))
