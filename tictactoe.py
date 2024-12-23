@@ -3,7 +3,8 @@
 # Copyright (C) 2024 Tashfin Shakeer Rhythm <tashfinshakeerrhythm@gmail.com>
 #
 
-import pygame as pg, sys, time, os, wget
+import pygame as pg, sys, time, os
+from urllib import request
 
 # Initialize pygame
 pg.init()
@@ -24,25 +25,29 @@ GRID_COLOR = (35, 48, 40)
 WIN_LINE_COLOR = (66, 66, 66)
 TEXT_COLOR = (255, 255, 255)
 
-# Download assets (X, O and background) if unavailable
+# Assets for the board
 assets = {
 	"x.png": "https://raw.githubusercontent.com/Tashar02/tic-tac-toe/main/x.png",
 	"o.png": "https://raw.githubusercontent.com/Tashar02/tic-tac-toe/main/o.png",
 	"bg.png": "https://raw.githubusercontent.com/Tashar02/tic-tac-toe/main/bg.png",
 }
 
-for filename, url in assets.items():
-	if not os.path.exists(filename):
-		try:
-			print(f"\nDownloading {filename}...")
-			wget.download(url, filename)
-		except Exception as e:
-			print(f"Error downloading {filename}: {e}")
-			print("Exiting program!")
-			pg.quit()
-			sys.exit()
+# download_assets() - Downloads assets if unavailable.
+# Returns: None
+def download_assets(assets):
+	for filename, url in assets.items():
+		if not os.path.exists(filename):
+			try:
+				print(f"\nDownloading {filename}...")
+				request.urlretrieve(url, filename)
+			except Exception as e:
+				print(f"Error downloading {filename}: {e}")
+				print("Exiting program!")
+				pg.quit()
+				sys.exit()
 
 # Load assets
+download_assets(assets)
 x_img = pg.transform.scale(pg.image.load("x.png"), (CELL_SIZE - SPACE, CELL_SIZE - SPACE))
 y_img = pg.transform.scale(pg.image.load("o.png"), (CELL_SIZE - SPACE, CELL_SIZE - SPACE))
 bg_img = pg.transform.scale(pg.image.load("bg.png"), (WIDTH, HEIGHT))
