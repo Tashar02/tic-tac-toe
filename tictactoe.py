@@ -1,7 +1,5 @@
+# SPDX-FileCopyrightText: 2024-2025 Tashfin Shakeer Rhythm <tashfinshakeerrhythm@gmail.com>
 # SPDX-License-Identifier: MIT
-#
-# Copyright (C) 2024 Tashfin Shakeer Rhythm <tashfinshakeerrhythm@gmail.com>
-#
 
 import pygame as pg, sys, time, os
 from urllib import request
