@@ -46,6 +46,7 @@ download_assets(assets)
 x_img = pg.transform.scale(pg.image.load("x.png"), (CELL_SIZE - SPACE, CELL_SIZE - SPACE))
 y_img = pg.transform.scale(pg.image.load("o.png"), (CELL_SIZE - SPACE, CELL_SIZE - SPACE))
 bg_img = pg.transform.scale(pg.image.load("bg.png"), (WIDTH, HEIGHT))
+starting_player = "X"
 
 # Load basic bitmap font for displaying text
 font = pg.font.Font(None, 40)
@@ -153,12 +154,14 @@ def game_initiating_window():
 	draw_grid()
 	# Store all game data in a dictionary
 	global game_data
+	global starting_player
 	game_data = {
 		"board": [[None] * BOARD_COLS for i in range(BOARD_ROWS)],
 		"updated_cells": [],
-		"player": "X",
+		"player": starting_player,
 		"game_over": False
 	}
+	starting_player = "O" if starting_player == "X" else "X"
 
 # event_handler() - Handles input events and modifies the game state.
 # Returns: None
