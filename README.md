@@ -2,7 +2,7 @@
 
 ## Description
 
-This is a simple implementation of the Tic-Tac-Toe game using Python's Pygame library.
+This is an OOP implementation of the Tic-Tac-Toe game using Python's Pygame library.
 
 ### Features
 - 2-player gameplay (locally on the same machine).
